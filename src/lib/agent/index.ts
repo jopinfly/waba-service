@@ -1,4 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
+import AnthropicVertex from "@anthropic-ai/vertex-sdk";
 import { config } from "@/config";
 import { agentTools, executeTool, type ToolContext } from "./tools";
 import { buildSystemPrompt } from "./system-prompt";
@@ -10,7 +11,10 @@ import {
 import { extractTextContent } from "../whatsapp/webhook";
 import type { InboundMessage } from "../whatsapp/types";
 
-const client = new Anthropic({ apiKey: config.anthropic.apiKey });
+const client = new AnthropicVertex({
+  projectId: config.vertex.projectId,
+  region: config.vertex.region,
+});
 
 const MAX_CONTEXT_MESSAGES = 40;
 const MAX_AGENTIC_TURNS = 5;
@@ -92,8 +96,8 @@ async function runAgentLoop(
 
   for (let turn = 0; turn < MAX_AGENTIC_TURNS; turn++) {
     const response = await client.messages.create({
-      model: config.anthropic.model,
-      max_tokens: config.anthropic.maxTokens,
+      model: config.vertex.model,
+      max_tokens: config.vertex.maxTokens,
       system: systemPrompt,
       tools: agentTools,
       messages: currentMessages,

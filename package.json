@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.52.0",
+    "@anthropic-ai/vertex-sdk": "^0.14.4",
     "@neondatabase/serverless": "^0.10.4",
     "@vercel/blob": "^0.27.1",
     "drizzle-orm": "^0.38.4",
